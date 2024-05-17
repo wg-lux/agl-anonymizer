@@ -1,4 +1,4 @@
-# AGL Aonymizer
+# AGL Anonymizer
 
 
 AGL Censor is a comprehensive Python module designed for image processing with specific functionalities for censoring, saving, blurring, and OCR (Optical Character Recognition). This tool is particularly useful in scenarios where sensitive information needs to be redacted from images or documents while retaining the overall context and visual structure.
