@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "agl-anonymizer-api"
+version = "0.1.0"
+description = "This API should serve Images to the AGL Anonymizer Module for Anonymization and safely associate them with their originals"
+authors = ["maxhild <58726316+maxhild@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Django = "~4.2"
+djangorestframework = "^3.14.0"
+django-bootstrap5 = "^23.4"
+
+
