@@ -1,4 +1,4 @@
-#!/home/agl-admin/agl-anonymizer/agl-anon-api/agl_anon_api/.venv/bin/python
+#!/home/agl-admin/agl-anonymizer/agl-anonymizer-api/agl-anonymizer-api/.venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

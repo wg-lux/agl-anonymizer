@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/agl-admin/agl-anonymizer/agl-anon-api/agl_anon_api/.venv"
+set -gx VIRTUAL_ENV "/home/agl-admin/agl-anonymizer/agl-anonymizer-api/agl-anonymizer-api/.venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

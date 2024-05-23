@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/agl-admin/agl-anonymizer/agl-anon-api/agl_anon_api/.venv"
+VIRTUAL_ENV="/home/agl-admin/agl-anonymizer/agl-anonymizer-api/agl-anonymizer-api/.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

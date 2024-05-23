@@ -29,11 +29,8 @@
               autoAddDriverRunpath
 
               # CUDA
-              # cudatoolkit
-              # cudaPackages.cudnn
               cudaPackages.cudatoolkit 
-              # linuxPackages.nvidia_x11
-              # cudaPackages.cudnn
+
 
               libGLU libGL
               glibc
@@ -45,6 +42,13 @@
               python311
 	            python311Packages.dulwich
               python311Packages.venvShellHook
+              python311Packages.pip
+              python311Packages.django-cors-headers
+              python311Packages.pillow
+              python311Packages.requests
+              python311Packages.gunicorn
+              python311Packages.psycopg2
+              nginx
 
               pam
 

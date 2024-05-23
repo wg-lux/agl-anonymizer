@@ -1,27 +1,26 @@
-# api/views.py
-from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import UploadedFile
-from .serializers import UploadedFileSerializer
-import os
-import shutil
+from rest_framework import status
+from .serializers import FileUploadSerializer
 
-@api_view(['POST'])
-def file_upload(request):
-    if request.method == 'POST':
-        serializer = UploadedFileSerializer(data=request.data)
+class ProcessFileView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = FileUploadSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            # Process the uploaded file with agl_anonymizer
-            file_path = serializer.data['file']
-            process_file(file_path)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            file = serializer.validated_data['file']
+            # Process the file here
+            processed_file, additional_values = self.process_file(file)
+            # Create a response with the processed file and additional values
+            response_data = {
+                'processed_file': processed_file,
+                'additional_values': additional_values
+            }
+            return Response(response_data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def process_file(file_path):
-    # Implement your file processing with agl_anonymizer here
-    result_directory = os.path.join(os.path.dirname(file_path), 'results')
-    os.makedirs(result_directory, exist_ok=True)
-    # Example: move file to results directory after processing
-    shutil.move(file_path, result_directory)
+    def process_file(self, file):
+        # Implement your file processing logic here
+        # For now, let's just return the file name and a dummy value
+        processed_file = f"processed_{file.name}"
+        additional_values = {'example_key': 'example_value'}
+        return processed_file, additional_values
