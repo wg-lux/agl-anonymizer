@@ -98,7 +98,7 @@ def modify_text_region(image_path, box, new_text):
     return modified_image_path
 
 
-def process_images_with_OCR_and_NER(file_path, east_path='frozen_east_text_detection.pb', min_confidence=0.5, width=320, height=320):
+def process_images_with_OCR_and_NER(file_path, east_path='frozen_east_text_detection.pb', device="olympus_cv_1500", min_confidence=0.5, width=320, height=320):
     print("Processing file:", file_path)
 
     # Initialize variables
@@ -128,7 +128,7 @@ def process_images_with_OCR_and_NER(file_path, east_path='frozen_east_text_detec
         raise ValueError("File does not exist or could not be found.")
 
     # Detect text boxes
-    boxes = east_text_detection(file_path, east_path, min_confidence, width, height)
+    boxes, confidences = east_text_detection(file_path, east_path, min_confidence, width, height)
     print("Text boxes detected")
 
     # Perform OCR on detected boxes
@@ -144,8 +144,8 @@ def process_images_with_OCR_and_NER(file_path, east_path='frozen_east_text_detec
 
         for entity in entities:
             if entity.tag == 'PER':
-                # Your existing code for handling each entity...
-                box_to_image_map = gender_and_handle_names([entity.text], phrase_box, file_path)
+                # boxes (the coordinates of the text boxes) get filled with names
+                box_to_image_map = gender_and_handle_names([entity.text], phrase_box, file_path, device)
                 modified_images_map.update(box_to_image_map)
     # Prepare and print the result
     result = {

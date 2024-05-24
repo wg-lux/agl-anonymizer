@@ -22,13 +22,13 @@
       };
 
       inherit (poetry2nix.lib.mkPoetry2Nix { inherit pkgs; }) mkPoetryApplication;
-      myPythonApp = mkPoetryApplication { projectDir = ../agl-censor; };
+      myPythonApp = mkPoetryApplication { projectDir = ../agl-anonymizer; };
     in {
       apps = {
         ${system} = {
           default = {
             type = "app";
-            program = "${myPythonApp}/bin/agl-censor";  # Make sure this is the correct executable path
+            program = "${myPythonApp}/bin/agl-anonymizer";  # Make sure this is the correct executable path
           };
         };
       };
@@ -56,6 +56,7 @@
           python311Packages.venvShellHook
           python311Packages.numpy
           python311Packages.imutils
+          python311Packages.transformers
 
           pam
         ];

@@ -10,7 +10,7 @@ import uuid
 from image_reassembly import reassemble_image
 
 
-def process_image(image_path, east_path, min_confidence, width, height, results_dir, temp_dir):
+def process_image(image_path, east_path, device, min_confidence, width, height, results_dir, temp_dir):
     print(f"Processing file: {image_path}")
     unique_id = str(uuid.uuid4())[:8]
  
@@ -21,7 +21,7 @@ def process_image(image_path, east_path, min_confidence, width, height, results_
     if original_image is None:
         raise ValueError(f"Could not load image at {image_path}")
     # Image processing logic here
-    modified_images_map, boxes = process_images_with_OCR_and_NER(image_path, east_path, min_confidence, width, height)
+    modified_images_map, boxes = process_images_with_OCR_and_NER(image_path, east_path, device, min_confidence, width, height)
     print("Images processed")
     # Print out the modified images map
     print("Modified Images Map:")
@@ -50,7 +50,7 @@ def get_image_paths(image_or_pdf_path, temp_dir):
     return image_paths
 
 
-def main(image_or_pdf_path, east_path='frozen_east_text_detection.pb', min_confidence=0.5, width=320, height=320):
+def main(image_or_pdf_path, east_path='frozen_east_text_detection.pb', device="olympus_cv_1500", min_confidence=0.5, width=320, height=320):
     results_dir = os.path.join(os.path.dirname(image_or_pdf_path), "results")
     os.makedirs(results_dir, exist_ok=True)
     temp_dir = tempfile.mkdtemp()
@@ -59,7 +59,7 @@ def main(image_or_pdf_path, east_path='frozen_east_text_detection.pb', min_confi
     processed_pdf_paths = []  # This will store paths of PDFs (either directly processed or converted from images)
     try:
         with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
-            futures = [executor.submit(process_image, img_path, east_path, min_confidence, width, height, results_dir, temp_dir) for img_path in image_paths]
+            futures = [executor.submit(process_image, img_path, east_path, device, min_confidence, width, height, results_dir, temp_dir) for img_path in image_paths]
             for future in as_completed(futures):
                 processed_image_path = future.result()
                 # Convert processed images to PDF if original input was a PDF
@@ -107,4 +107,4 @@ if __name__ == "__main__":
     args = vars(ap.parse_args())
 
     # Call the main function with parsed arguments
-    main(args["image"], args["east"], args["min_confidence"], args["width"], args["height"])
+    main(args["image"], args["east"], args["device"], args["min_confidence"], args["width"], args["height"])

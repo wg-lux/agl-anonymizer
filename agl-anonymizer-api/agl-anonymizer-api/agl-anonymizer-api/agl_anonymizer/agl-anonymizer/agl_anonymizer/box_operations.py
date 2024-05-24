@@ -1,4 +1,5 @@
 from color_picker_avg import get_dominant_color
+import numpy as np
 
 def extend_boxes_if_needed(image, boxes, extension_margin=10, color_threshold=30):
     extended_boxes = []
