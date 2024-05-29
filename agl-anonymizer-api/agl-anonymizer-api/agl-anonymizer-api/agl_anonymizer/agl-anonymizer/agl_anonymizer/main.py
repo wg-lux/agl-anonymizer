@@ -21,14 +21,14 @@ def process_image(image_path, east_path, device, min_confidence, width, height, 
     if original_image is None:
         raise ValueError(f"Could not load image at {image_path}")
     # Image processing logic here
-    modified_images_map, boxes = process_images_with_OCR_and_NER(image_path, east_path, device, min_confidence, width, height)
+    modified_images_map, stats = process_images_with_OCR_and_NER(image_path, east_path, device, min_confidence, width, height)
     print("Images processed")
     # Print out the modified images map
     print("Modified Images Map:")
     reassembled_image_path=image_path
     reassembled_image_path = reassemble_image(modified_images_map, results_dir, id)
 
-    return reassembled_image_path
+    return reassembled_image_path, stats
 
 def get_image_paths(image_or_pdf_path, temp_dir):
     image_paths = []
@@ -61,7 +61,7 @@ def main(image_or_pdf_path, east_path='frozen_east_text_detection.pb', device="o
         with ThreadPoolExecutor(max_workers=os.cpu_count()) as executor:
             futures = [executor.submit(process_image, img_path, east_path, device, min_confidence, width, height, results_dir, temp_dir) for img_path in image_paths]
             for future in as_completed(futures):
-                processed_image_path = future.result()
+                processed_image_path, stats = future.result()
                 # Convert processed images to PDF if original input was a PDF
                 if image_or_pdf_path.endswith('.pdf'):
                     temp_pdf_path = os.path.join(temp_dir, f"processed_{uuid.uuid4()}.pdf")

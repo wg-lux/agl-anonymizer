@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "agl-censor"
+name = "agl-anonymizer"
 version = "0.1.0"
 description = "This package is made to censor sensitive data in images and extract the contents. NER is planned for the future"
 authors = ["maxhild <58726316+maxhild@users.noreply.github.com>"]
@@ -25,5 +25,5 @@ flair = "0.13.0"
 gender-guesser = "0.4.0"
 PyPDF2 = "3.0.1"
 reportlab = "4.1.0"
-
+torch = "^1.10.0"
 

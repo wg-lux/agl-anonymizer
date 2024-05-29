@@ -10,7 +10,7 @@
   let
     system = "x86_64-linux"; # Adjust to your system architecture
     pkgs = import nixpkgs {
-          inherit system;
+          inherit system;  
           config.allowUnfree = true;
           config.cudaSupport = true;
     };  
@@ -31,7 +31,6 @@
               # CUDA
               cudaPackages.cudatoolkit 
 
-
               libGLU libGL
               glibc
               xorg.libXi xorg.libXmu freeglut
@@ -40,7 +39,7 @@
               gcc
 
               python311
-	            python311Packages.dulwich
+              python311Packages.dulwich
               python311Packages.venvShellHook
               python311Packages.pip
               python311Packages.django-cors-headers
@@ -64,7 +63,10 @@
               export LD_LIBRARY_PATH=${pkgs.linuxPackages.nvidia_x11}/lib
               export EXTRA_LDFLAGS="-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib"
               export EXTRA_CCFLAGS="-I/usr/include"
-              
+
+              # Ensure no duplicate settings for compiler-bindir
+              export CUDA_NVCC_FLAGS="--compiler-bindir=$(which gcc)"
+
               python -m pip install --upgrade pip
               poetry update
 
