@@ -76,12 +76,6 @@ WSGI_APPLICATION = 'agl-anonymizer-api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-INSTALLED_APPS = [
-    ...,
-    'api',
-    'agl_anonymizer',
-    'rest_framework',  # Assuming you're using Django REST framework
-]
 
 # Add file upload settings
 MEDIA_URL = '/media/'

@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import FileUploadSerializer
-from .agl_anonymizer import process_pipeline  # Adjust the import based on your pipeline's entry point
+from .agl_anonymizer.agl_anonymizer import main   # Adjust the import based on your pipeline's entry point
 
 class ProcessFileView(APIView):
     def post(self, request, *args, **kwargs):
