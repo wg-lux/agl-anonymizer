@@ -8,6 +8,8 @@ from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework import status
+from agl_anonymizer.agl_anonymizer import main
+
 
 class ProcessFileView(APIView):
     parser_classes = [MultiPartParser]

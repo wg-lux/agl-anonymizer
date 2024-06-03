@@ -14,8 +14,9 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-Django = "~4.2"
+Django = "^4.2"
 djangorestframework = "^3.14.0"
 django-bootstrap5 = "^23.4"
+opencv-python = "^4.5.1" 
 
 
