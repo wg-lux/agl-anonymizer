@@ -15,11 +15,10 @@
     };
   in
   {
-    devShells.${system} = pkgs.mkShell {
+    devShell.${system} = pkgs.mkShell {
       buildInputs = with pkgs; [
         poetry
         stdenv.cc.cc.lib
-        pkgs.autoAddDriverRunpath
         cudaPackages.cudatoolkit
         libGLU
         libGL
@@ -36,6 +35,7 @@
         ncurses5
         stdenv.cc
         binutils
+        gcc11
         python311
         python311Packages.setuptools
         python311Packages.scipy
@@ -53,9 +53,17 @@
         export LD_LIBRARY_PATH="${pkgs.linuxPackages.nvidia_x11}/lib:${pkgs.zlib}/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.libGL}/lib:${pkgs.libGLU}/lib:${pkgs.glib}/lib:${pkgs.glibc}/lib:/nix/store/3xsbahrqqc4fc3gknmjj9j9687n4hiz0-glib-2.80.0/lib/:$LD_LIBRARY_PATH"
         export EXTRA_LDFLAGS="-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib"
         export EXTRA_CCFLAGS="-I/usr/include"
+        export CUDA_NVCC_FLAGS="--compiler-bindir=$(which gcc)"
+        export PATH="${pkgs.python311}/bin:$PATH"
         python -m pip install --upgrade pip
         poetry install
       '';
+    };
+
+    defaultPackage.${system} = pkgs.mkShell {
+      buildInputs = with pkgs; [
+        poetry
+      ];
     };
   };
 }

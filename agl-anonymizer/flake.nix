@@ -6,7 +6,8 @@
     poetry2nix.url = "github:nix-community/poetry2nix";
     cachix.url = "github:cachix/cachix";
     agl_anonymizer = {
-      url = "path:./agl-anonymizer-api/agl_anonymizer";
+      url = "path:./agl-anonymizer-api/agl_anonymizer/agl_anonymizer";
+      flake = true;
     };
   };
 
@@ -25,7 +26,7 @@
     };
   in
   {
-    devShells.${system} = pkgs.mkShell {
+    devShell.${system} = pkgs.mkShell {
       buildInputs = with pkgs; [
         poetry
         autoAddDriverRunpath
@@ -50,11 +51,10 @@
         python311Packages.requests
         python311Packages.gunicorn
         python311Packages.psycopg2
-        python311Packages.opencv-python
         nginx
 
         # Referencing the submodule's devShell
-        agl_anonymizer.devShells.${system}
+        (import agl_anonymizer).devShell.${system}
 
         pam
       ];
