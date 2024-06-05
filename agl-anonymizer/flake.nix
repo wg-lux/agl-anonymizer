@@ -78,6 +78,7 @@
         export LD_LIBRARY_PATH="${pkgs.linuxPackages.nvidia_x11}/lib:${pkgs.zlib}/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.libGL}/lib:${pkgs.libGLU}/lib:${pkgs.glib}/lib:${pkgs.glibc}/lib:/nix/store/3xsbahrqqc4fc3gknmjj9j9687n4hiz0-glib-2.80.0/lib/:$LD_LIBRARY_PATH"
         export EXTRA_LDFLAGS="-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib"
         export EXTRA_CCFLAGS="-I/usr/include"
+        print("file paths set")
 
         # Ensure no duplicate settings for compiler-bindir
         export CUDA_NVCC_FLAGS="--compiler-bindir=$(which gcc)"

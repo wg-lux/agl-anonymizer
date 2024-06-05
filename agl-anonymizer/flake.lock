@@ -7,7 +7,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-zJXULY/JXfvlqn/hCdeMtFk/hFfFuXgqX/341Y7yNXQ=",
+        "narHash": "sha256-e5tD0xeeGk8T2FVbVQ5CQo0b4X3t0KHU2x8+yRo/UC4=",
         "path": "./agl-anonymizer-api/agl_anonymizer/agl_anonymizer",
         "type": "path"
       },
