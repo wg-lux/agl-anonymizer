@@ -29,10 +29,10 @@
     devShell.${system} = pkgs.mkShell {
       buildInputs = with pkgs; [
         poetry
-        autoAddDriverRunpath
+        pkgs.autoAddDriverRunpath
 
         # CUDA
-        cudaPackages.cudatoolkit
+        pkgs.cudaPackages.cudatoolkit
 
         libGLU libGL
         glibc
@@ -66,11 +66,9 @@
       venvDir = ".venv";
 
       shellHook = ''
-        echo "Current directory before direnv allow: $(pwd)"
         # Ensure poetry is installed and in PATH
         export PATH="$HOME/.poetry/bin:$PATH"
         direnv allow
-        echo "Current directory after direnv allow: $(pwd)"
       '';
 
       postShellHook = ''
@@ -78,12 +76,20 @@
         export LD_LIBRARY_PATH="${pkgs.linuxPackages.nvidia_x11}/lib:${pkgs.zlib}/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.libGL}/lib:${pkgs.libGLU}/lib:${pkgs.glib}/lib:${pkgs.glibc}/lib:/nix/store/3xsbahrqqc4fc3gknmjj9j9687n4hiz0-glib-2.80.0/lib/:$LD_LIBRARY_PATH"
         export EXTRA_LDFLAGS="-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib"
         export EXTRA_CCFLAGS="-I/usr/include"
-        print("file paths set")
+        echo "file paths set"
 
         # Ensure no duplicate settings for compiler-bindir
         export CUDA_NVCC_FLAGS="--compiler-bindir=$(which gcc)"
 
         poetry install # Ensure poetry dependencies are installed
+      '';
+    };
+
+    packages.${system}.default = pkgs.stdenv.mkDerivation {
+      name = "agl-anonymizer";
+      src = ./.;
+      buildInputs = [ ]; 
+      installPhase = ''
       '';
     };
 
