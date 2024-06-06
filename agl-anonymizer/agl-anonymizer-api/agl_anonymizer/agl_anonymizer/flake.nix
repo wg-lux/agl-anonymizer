@@ -49,7 +49,6 @@
       ];
       venvDir = ".venv";
       postShellHook = ''
-        print("Post shell hook of AGL Anonymizer submodule activated")
         export CUDA_PATH=${pkgs.cudaPackages.cudatoolkit}
         export LD_LIBRARY_PATH="${pkgs.linuxPackages.nvidia_x11}/lib:${pkgs.zlib}/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.libGL}/lib:${pkgs.libGLU}/lib:${pkgs.glib}/lib:${pkgs.glibc}/lib:/nix/store/3xsbahrqqc4fc3gknmjj9j9687n4hiz0-glib-2.80.0/lib/:$LD_LIBRARY_PATH"
         export EXTRA_LDFLAGS="-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib"
@@ -61,10 +60,6 @@
       '';
     };
 
-    defaultPackage.${system} = pkgs.mkShell {
-      buildInputs = with pkgs; [
-        poetry
-      ];
-    };
+
   };
 }

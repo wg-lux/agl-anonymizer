@@ -29,10 +29,10 @@
     devShell.${system} = pkgs.mkShell {
       buildInputs = with pkgs; [
         poetry
-        pkgs.autoAddDriverRunpath
+        autoAddDriverRunpath
 
         # CUDA
-        pkgs.cudaPackages.cudatoolkit
+        cudaPackages.cudatoolkit
 
         libGLU libGL
         glibc
@@ -54,7 +54,6 @@
         nginx
 
         # Referencing the submodule's devShell
-        (import agl_anonymizer).devShell.${system}
 
         pam
       ];
@@ -75,6 +74,8 @@
         export CUDA_PATH=${pkgs.cudaPackages.cudatoolkit}
         export LD_LIBRARY_PATH="${pkgs.linuxPackages.nvidia_x11}/lib:${pkgs.zlib}/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.libGL}/lib:${pkgs.libGLU}/lib:${pkgs.glib}/lib:${pkgs.glibc}/lib:/nix/store/3xsbahrqqc4fc3gknmjj9j9687n4hiz0-glib-2.80.0/lib/:$LD_LIBRARY_PATH"
         export EXTRA_LDFLAGS="-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib"
+        export agl_anonymizer="${agl_anonymizer}/bin/agl_anonymizer"
+
         export EXTRA_CCFLAGS="-I/usr/include"
         echo "file paths set"
 
@@ -85,13 +86,7 @@
       '';
     };
 
-    packages.${system}.default = pkgs.stdenv.mkDerivation {
-      name = "agl-anonymizer";
-      src = ./.;
-      buildInputs = [ ]; 
-      installPhase = ''
-      '';
-    };
+
 
     nixConfig = {
       binary-caches = [nvidiaCache.binaryCachePublicUrl];
