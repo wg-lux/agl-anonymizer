@@ -1,60 +1,114 @@
-# AGL Censor
+# AGL Anonymizer
 
-AGL Censor is a comprehensive Python module designed for image processing with specific functionalities for censoring, saving, blurring, and OCR (Optical Character Recognition). This tool is particularly useful in scenarios where sensitive information needs to be redacted from images or documents while retaining the overall context and visual structure.
+AGL Anonymizer is a Django-based API that interacts with the AGL Anonymizer Pipeline to provide comprehensive image processing capabilities, specifically for anonymizing sensitive information using common German names, blurring, and OCR (Optical Character Recognition). This API is designed to facilitate the seamless integration of anonymization functionalities into various applications, ensuring privacy and compliance with data protection regulations.
 
-## Features
+## Features of the pipeline
 
-- **Text Detection and Censoring**: Utilizes advanced OCR techniques to detect text in images and applies censoring to safeguard sensitive information.
-- **Blurring Functionality**: Offers customizable blurring options to obscure parts of an image, providing an additional layer of privacy.
-- **Image Saving**: Efficiently saves processed images in a desired format, maintaining high-quality output.
-- **Extensive Format Support**: Capable of handling various image and document formats for a wide range of applications.
+- **Text Detection and Anonymization**: Leverages advanced OCR techniques to detect and anonymize text within images, safeguarding sensitive information.
+- **Blurring Functionality**: Includes customizable blurring options to obscure specific areas of an image, enhancing privacy.
+- **Image Saving**: Efficiently saves processed images in the desired format while maintaining high-quality output.
+- **Extensive Format Support**: Capable of handling various image and document formats for diverse applications.
+- Pdf,
+- 
 
 ## Installation
 
-To get started with AGL Censor, clone this repository and install the required dependencies.
+To get started with AGL Anonymizer, follow these steps:
 
-git clone https://github.com/maxhild/agl_censor.git
-cd agl_censor
-nix develop
-dowload a text detection model like this frozen_east_text_detection.pb
+1. **Clone the Repository**:
+    ```bash
+    git clone https://github.com/wg-lux/agl_anonymizer.git
+    cd agl_anonymizer
+    ```
+
+2. **Set Up the Development Environment**:
+    ```bash
+    nix develop
+    ```
+
+3. **Install Dependencies**:
+    Ensure you have all required dependencies installed. Refer to `pypoetry.toml` for a list of dependencies.
+
+4. **Download the Text Detection Model**:
+    Download a text detection model, such as `frozen_east_text_detection.pb`, and place it in the appropriate directory.
 
 ## Usage
 
-To use AGL Censor, follow these steps:
+To use the AGL Anonymizer API, follow these steps:
 
-Prepare Your Images: Place the images you want to process in the designated folder.
-Configure Settings: Adjust the settings in the configuration file (if applicable) to suit your censoring and blurring needs.
-Run the Module: Execute the main script from the command line to process the images.
-bash
+1. **Prepare Your Images**:
+   Place the images you want to process in a designated folder.
 
-code:
+2. **Configure Settings**:
+   Adjust settings in the configuration file (if applicable) to suit your anonymizing and blurring needs.
 
-python main.py --image images/your_image.jpg --east frozen_east_text_detection.pb 
+3. **Run the Django Server**:
+    ```bash
+    python manage.py runserver
+    ```
 
-example:
+4. **Make API Requests**:
+   Use an API client like Postman, cURL, or the `requests` library in Python to interact with the AGL Anonymizer API. Example request using the `requests` library:
 
-python main.py --image images/lebron_james.jpg --east frozen_east_text_detection.pb 
+    ```python
+    import requests
+    import os
+
+    # Get the directory of the current script
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Define the path to the image file located in the 'requests_agl_anonymizer' folder
+    image_path = os.path.join(base_dir, 'frame_0.jpg')
+
+    # Ensure the file exists
+    if not os.path.exists(image_path):
+        raise FileNotFoundError(f"No such file or directory: '{image_path}'")
+
+    # Define the URL of the Django API endpoint
+    url = 'http://127.0.0.1:8000/process/'
+
+    # Open the file in binary mode and send it as part of the multipart form-data payload
+    with open(image_path, 'rb') as image_file:
+        files = {
+            'file': image_file,
+        }
+        data = {
+            'title': 'Example Image',
+        }
+        response = requests.post(url, files=files, data=data)
+
+    # Print the response from the server
+    print(response.status_code)
+    print(response.json())  # Assuming the server returns a JSON response
+    ```
+
+## API Endpoints
+
+- **/process/**: Endpoint to upload images and receive anonymized results.
 
 ## Modules
 
-AGL Censor is comprised of several key modules:
+AGL Anonymizer API comprises several key modules:
 
-OCR Module: Detects and extracts text from images.
-Censor Module: Applies censoring techniques to identified sensitive text regions.
-Blur Module: Provides functions to blur specific areas in the image.
-Save Module: Handles the saving of processed images in a chosen format.
-Customization
+- **OCR Module**: Detects and extracts text from images.
+- **Anonymizer Module**: Applies anonymization techniques to identified sensitive text regions.
+- **Blur Module**: Provides functions to blur specific areas in the image.
+- **Save Module**: Handles the saving of processed images in a chosen format.
 
-You can customize the behavior of AGL Censor by modifying the parameters in the config.py file (if included). This includes adjusting the OCR sensitivity, blur intensity, and more.
+## Models
 
-## Contributing
+### UploadedFile
 
-Contributions to AGL Censor are welcome! If you have suggestions for improvements or bug fixes, please open an issue or a pull request.
+Represents an uploaded file with fields for the original file, upload date, and an optional description.
 
-## License
+```python
+from django.db import models
+from django.utils import timezone
 
-This project is licensed under the MIT License.
-
-## Contact
-
-For any inquiries or assistance with AGL Anonymizer, please contact Max Hild at Maxhild10@gmail.com.
+class UploadedFile(models.Model):
+    original_file = models.FileField(upload_to='uploads/original/')
+    upload_date = models.DateTimeField(default=timezone.now)
+    description = models.TextField(blank=True, null=True)
+    
+    def __str__(self):
+        return self.original_file.name

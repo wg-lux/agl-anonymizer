@@ -10,8 +10,12 @@ from agl_anonymizer_pipeline.main import main  # Import the main function
 class ProcessFileView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = FileUploadSerializer(data=request.data)
+
         if serializer.is_valid():
+            # Get the device parameter from the request, default to 'olympus_cv_1500' if not provided
+            device = request.POST.get('device', 'olympus_cv_1500')
             file = serializer.validated_data['file']
+            
             # Save the uploaded file to a temporary location
             temp_file_path = os.path.join(settings.MEDIA_ROOT, file.name)
             with open(temp_file_path, 'wb') as temp_file:
@@ -26,8 +30,8 @@ class ProcessFileView(APIView):
                 if not os.path.exists(east_model_path):
                     raise FileNotFoundError(f"Model file not found: {east_model_path}")
 
-                # Call the main function from main.py
-                output_path = main(temp_file_path, east_model_path)
+                # Call the main function from main.py, passing the device parameter
+                output_path = main(temp_file_path, east_path=east_model_path, device=device)
 
                 # Create a response with the processed files and additional values
                 response_data = {
