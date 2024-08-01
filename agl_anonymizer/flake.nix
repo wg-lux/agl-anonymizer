@@ -36,6 +36,20 @@
         stdenv.cc
         binutils
         gcc11
+        opencv4
+        
+        cudaPackages.cudnn
+        cudaPackages.cudatoolkit 
+        linuxPackages.nvidia_x11
+        libGLU libGL
+        xorg.libXi xorg.libXmu freeglut
+        xorg.libXext xorg.libX11 xorg.libXv xorg.libXrandr zlib 
+        ncurses5 stdenv.cc binutils
+        python311
+        python311Packages.venvShellHook
+        python311Packages.numpy
+        python311Packages.torchvision-bin
+        python311Packages.torchaudio-bin
         python311
         python311Packages.setuptools
         python311Packages.gensim
@@ -57,9 +71,6 @@
         ncurses5 stdenv.cc binutils
         gcc
 
-        python311
-        python311Packages.dulwich
-        python311Packages.venvShellHook
         python311Packages.pip
         python311Packages.djangorestframework-guardian2
         python311Packages.django-cors-headers
