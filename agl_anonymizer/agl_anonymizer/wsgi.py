@@ -15,6 +15,6 @@ import sys
 print(sys.path)
 
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'agl_anonymizer.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
 
 application = get_wsgi_application()

@@ -72,6 +72,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'agl_anonymizer.wsgi.application'
 
 
+
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -134,7 +135,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/home/agl-admin/agl_anonymizer/agl_anonymizer/agl_anonymizer/logs/app.log',
+            'filename': '/home/agl-admin/agl_anonymizer/agl_anonymizer/logs/app.log',
         },
     },
     'loggers': {
