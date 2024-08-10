@@ -2,8 +2,7 @@
   description = "Python application agl_anonymizer packaged using poetry2nix";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    poetry2nix.url = "github:nix-community/poetry2nix";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
   };
 
   outputs = { self, nixpkgs, poetry2nix, ... }: let
