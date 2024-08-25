@@ -7,6 +7,22 @@ from rest_framework import status
 from .serializers import FileUploadSerializer
 from agl_anonymizer_pipeline.main import main  # Import the main function
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt  # Only if you're having issues with CSRF tokens in your JavaScript
+def handle_annotation(request):
+    if request.method == "POST":
+        data = request.POST.get("annotation_data", "")
+        # Handle the data here (e.g., save it to the database)
+        response = {
+            "status": "success",
+            "message": "Annotation received",
+        }
+        return JsonResponse(response)
+    return JsonResponse({"status": "failed", "message": "Invalid request method"})
+
+
 class ProcessFileView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = FileUploadSerializer(data=request.data)
@@ -46,3 +62,26 @@ class ProcessFileView(APIView):
                 if os.path.exists(temp_file_path):
                     os.remove(temp_file_path)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+import json
+
+@csrf_exempt  # Ensure CSRF is handled if not passed in the headers
+def save_data(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+
+        # Extract data from the POST request
+        name = data.get('name')
+        polyp_count = data.get('polypCount')
+        comments = data.get('comments')
+
+        # Save the data in the database or perform your logic
+        # For example:
+        # new_entry = YourModel(name=name, polyp_count=polyp_count, comments=comments)
+        # new_entry.save()
+        print(f"Data received: {name}, {polyp_count}, {comments}")
+
+        return JsonResponse({"status": "success", "message": "Data saved successfully"})
+
+    return JsonResponse({"status": "failed", "message": "Invalid request method"})
