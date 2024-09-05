@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'agl_anonymizer_pipeline',
-    'endoreg_db.apps.EndoregDbConfig'
 ]
 
 MIDDLEWARE = [
