@@ -48,6 +48,8 @@ To use the AGL Anonymizer API, follow these steps:
     ```
 
 4. **Make API Requests**:
+    Decide first, if validation of the anonymization is necessary. (only available with a running instance of agl-validator) If so, the validation flag needs to be set to true inside of the request.
+
    Use an API client like Postman, cURL, or the `requests` library in Python to interact with the AGL Anonymizer API. Example request using the `requests` library:
 
     ```python
