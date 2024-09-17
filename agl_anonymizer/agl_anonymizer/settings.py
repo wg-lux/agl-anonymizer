@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'agl_anonymizer_pipeline',
 ]
 
 MIDDLEWARE = [
@@ -135,7 +136,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/home/agl-admin/agl_anonymizer/agl_anonymizer/logs/app.log',
+            'filename': os.path.join(BASE_DIR, 'logs/app.log'),  # Use relative path
         },
     },
     'loggers': {
@@ -152,3 +153,11 @@ LOGGING = {
     },
 }
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.TokenAuthentication',
+#     ],
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ],
+# }

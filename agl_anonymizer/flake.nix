@@ -91,6 +91,8 @@
         export EXTRA_CCFLAGS="-I/usr/include"
         export CUDA_NVCC_FLAGS="--compiler-bindir=$(which gcc)"
         python -m pip install --upgrade pip
+        pip install -e /home/agl-admin/agl_anonymizer_pipeline
+
         poetry install
       '';
     };
