@@ -18,6 +18,7 @@
       buildInputs = with pkgs; [
         poetry
         stdenv.cc.cc.lib
+        autoAddDriverRunpath
         cudaPackages.cudatoolkit
         libGLU
         libGL
@@ -61,7 +62,7 @@
         python311Packages.imutils
         pam
 
-        autoAddDriverRunpath
+        
 
         libGLU libGL
         glibc

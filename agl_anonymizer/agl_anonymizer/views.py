@@ -45,9 +45,9 @@ class ProcessFileView(APIView):
                 data_to_send = {
                     'image_name': os.path.basename(temp_file_path),
                     'original_image_url': original_img_path,
-                    'polyp_count': len(stats.gender_pars),
+                    'polyp_count': 0, # Placeholder, model tba from 'polyp_count' to 0
                     'comments': "Generated during anonymization",
-                    'gender_pars': stats.gender_pars,
+                    'gender_pars': stats['gender_pars'],
                     'processed_file': output_path
                 }
 
