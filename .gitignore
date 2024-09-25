@@ -1,2 +1,6 @@
 
 agl_anonymizer/results/
+*/app.log
+db.sqlite3
+*/.venv/
+*/.vscode/
