@@ -129,26 +129,54 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 import os
 import logging.config
 
+# Base directory of the project
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Existing settings...
+
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/app.log'),  # Use relative path
+    'disable_existing_loggers': False,  # Keeps the default loggers
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime}] {levelname} {name}: {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
         },
     },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',  # Use 'verbose' or 'simple' as desired
+        },
+        # You can add file handlers or other handlers here
+    },
     'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
+        # Root logger
+        '': {
+            'handlers': ['console'],
+            'level': 'DEBUG',  # Set to DEBUG or INFO as needed
             'propagate': True,
         },
-        'opencv': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
+        # Specific logger to reduce verbosity
+        'django.utils.autoreload': {
+            'handlers': ['console'],
+            'level': 'INFO',  # Set to INFO or WARNING to reduce DEBUG messages
+            'propagate': False,
+        },
+        # You can configure other loggers here as needed
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',  # Adjust Django's default logging level
+            'propagate': False,
+        },
+        'myapp': {  # Replace 'myapp' with your actual app name
+            'handlers': ['console'],
+            'level': 'DEBUG',  # Set desired level for your app's logs
+            'propagate': False,
         },
     },
 }
