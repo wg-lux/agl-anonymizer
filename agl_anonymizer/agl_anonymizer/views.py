@@ -3,8 +3,14 @@ class Result:
     def __init__(self, **entries):
         self.__dict__.update(entries)
 
+
+class Result:
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
+
 import os
 import uuid
+import requests
 import requests
 from django.conf import settings
 from rest_framework.views import APIView
@@ -12,10 +18,13 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import FileUploadSerializer
 from agl_anonymizer_pipeline.main import main
+from agl_anonymizer_pipeline.main import main
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 class ProcessFileView(APIView):
+    # permission_classes = [IsAuthenticated]  # Optional, for secure API access
+
     # permission_classes = [IsAuthenticated]  # Optional, for secure API access
 
     def post(self, request, *args, **kwargs):
@@ -26,6 +35,8 @@ class ProcessFileView(APIView):
             file = serializer.validated_data['file']
             validation = request.POST.get('validation', 'false').lower() in ['true', '1']
 
+            validation = request.POST.get('validation', 'false').lower() in ['true', '1']
+
             # Save the uploaded file to a temporary location
             temp_file_path = os.path.join(settings.MEDIA_ROOT, file.name)
             with open(temp_file_path, 'wb') as temp_file:
@@ -34,10 +45,13 @@ class ProcessFileView(APIView):
 
             try:
                 # Get the path to the EAST model
+                # Get the path to the EAST model
                 east_model_path = os.path.join(settings.BASE_DIR, 'agl_anonymizer', 'models', 'frozen_east_text_detection.pb')
                 if not os.path.exists(east_model_path):
                     raise FileNotFoundError(f"Model file not found: {east_model_path}")
 
+                # Call the main processing function
+                output_path, stats, original_img_path = main(temp_file_path, east_path=east_model_path, device=device, validation=True)
                 # Call the main processing function
                 output_path, stats, original_img_path = main(temp_file_path, east_path=east_model_path, device=device, validation=True)
 
@@ -70,6 +84,7 @@ class ProcessFileView(APIView):
             finally:
                 if os.path.exists(temp_file_path):
                     os.remove(temp_file_path)
+
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
